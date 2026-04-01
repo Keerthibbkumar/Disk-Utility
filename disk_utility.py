@@ -22,13 +22,13 @@ if os.path.exists(LOCAL_PATH):
     with open(LOCAL_PATH, 'w') as f:
         f.write(f"--- Truncated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ---\n")
     
-TRUNCATE_CMD = f"ssh -o StrictHostKeyChecking=no -q -A casper-admin.svc.ad1.{REGIONS_NAME} '> {REMOTE_FILE}'"
+TRUNCATE_CMD = f"ssh -o StrictHostKeyChecking=no -q -A saper-admin.svc.ad1.{REGIONS_NAME} '> {REMOTE_FILE}'"
 subprocess.run(TRUNCATE_CMD, shell=True)
 
 print("Fetching the data. Please wait...!⏳")
     
 for ig in ["ig1", "ig2", "ig3"]:
-    command = f"ssh -o StrictHostKeyChecking=no -q -A casper-admin.svc.ad1.{REGIONS_NAME} 'casper -r $(cat /etc/region) --ig {ig} vs ss list 2>/dev/null | jq -r \".[] | select(.status == \\\"LIVE\\\") | .hostName\"' >> {REGIONS_NAME}"
+    command = f"ssh -o StrictHostKeyChecking=no -q -A saper-admin.svc.ad1.{REGIONS_NAME} 'saper -r $(cat /etc/region) --ig {ig} vs ss list 2>/dev/null | jq -r \".[] | select(.status == \\\"LIVE\\\") | .hostName\"' >> {REGIONS_NAME}"
     try:
         process = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         print(process.stdout)
